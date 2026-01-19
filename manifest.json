@@ -1,7 +1,7 @@
 {
-  "name": "TAQWA - تقوى",
-  "short_name": "TAQWA",
-  "description": "تطبيق إسلامي شامل للقرآن والأذكار",
+  "name": "Islamic.x - التطبيق الإسلامي الشامل",
+  "short_name": "Islamic.x",
+  "description": "تطبيق إسلامي شامل للقرآن والأذكار والعبادات",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1E4D40",
