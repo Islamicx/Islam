@@ -175,7 +175,7 @@ const fullStoriesData = [
     {
         id: 18,
         title: "يونس عليه السلام",
-        content: "ذا النون (صاحب الحوت). دعا قومه (أهل نينوى) فكذبوه، فخرج مغاضباً قبل أن يأذن الله له، وظن أن الله لن يضيق عليه. ركب سفينة، فساهموا فوقعت القرعة عليه فألقي في البحر، فالتقمه الحوت. <br><br>نادى في ظلمات بطن الحوت: (لا إله إلا أنت سبحانك إني كنت من الظالمين). استجاب الله له، ونجاه، وأرسله مرة أخرى لقومه فآمنوا جميعاً (مائة ألف أو يزيدون)."
+        content: "ذا النون (صاحب الحوت). دعا قومه (أهل نينوى) فكذبوه، فخرج مغاضباً قبل أن يأذن الله له، وظن أن الله لن يضيق عليه. ركب سفينة، فساهموا فوقعت القرعة عليه فألقي في البحر، فالتقمه الحوت. <br><br>نادى في ظلمات بطن الحوت: (لا إله إلا أنت سبحانك إني كنت من الظالمين). استجاب الله له، وأنجاه، وأرسله مرة أخرى لقومه فآمنوا جميعاً (مائة ألف أو يزيدون)."
     },
     {
         id: 19,
@@ -253,7 +253,6 @@ function renderReciters(filter = "") {
         container.innerHTML += `
             <div class="reciter-card" onclick="playReciter('${r.id}')">
                 <i class="fas fa-thumbtack pin-icon ${isFav?'active':''}" onclick="togglePin(event,'${r.id}')"></i>
-                <i class="fas fa-share-alt share-reciter" onclick="shareReciter(event, '${r.name}')"></i>
                 <div class="avatar-unified"><i class="fas fa-user"></i></div>
                 <div class="reciter-name">${r.name}</div>
             </div>
@@ -266,10 +265,6 @@ function togglePin(e, id) {
     if(favorites.includes(id)) favorites = favorites.filter(f=>f!==id); else favorites.push(id);
     localStorage.setItem('favs', JSON.stringify(favorites));
     renderReciters();
-}
-function shareReciter(e, name) {
-    e.stopPropagation();
-    if(navigator.share) navigator.share({title:`استمع للشيخ ${name}`, text: `استمع للقرآن الكريم بصوت الشيخ ${name} على Islamic.x`, url: window.location.href});
 }
 
 async function fetchSurahs() {
@@ -312,7 +307,6 @@ function renderStories() {
                     <div class="story-avatar"><i class="fas fa-book-open"></i></div>
                     <span style="font-weight:bold;">${s.title}</span>
                 </div>
-                <i class="fas fa-share-alt share-story-list" onclick="event.stopPropagation(); shareStoryDirect('${s.title}')"></i>
                 <i class="fas fa-angle-left" style="color:#ccc;"></i>
             </div>
         `;
@@ -353,12 +347,12 @@ function openAzkar(type) {
     data.forEach(d => {
         container.innerHTML += `
             <div class="detail-card">
-                <div class="share-cat-btn" onclick="shareAppGlobal()"><i class="fas fa-share-alt"></i></div>
                 <div class="detail-text">${d.txt}</div>
                 <div class="detail-meta">
                     <span class="count-badge">عدد المرات: ${d.count}</span>
                     <div class="detail-actions">
                         <i class="fas fa-copy" onclick="copyText(this, '${d.txt.substring(0,20)}')"></i>
+                        <i class="fas fa-share-alt" onclick="shareAzkarItem('${d.txt.substring(0,100)}...')"></i>
                     </div>
                 </div>
             </div>
@@ -372,6 +366,9 @@ function copyText(el, txt) {
     navigator.clipboard.writeText(txt); 
     el.style.color = 'green'; 
     setTimeout(()=>el.style.color='#999', 1000); 
+}
+function shareAzkarItem(txt) {
+    if(navigator.share) navigator.share({title:'ذكر', text: txt + "\nتطبيق Islamic.x", url: window.location.href});
 }
 
 function getPrayerTimes() {
@@ -471,8 +468,13 @@ function playSurah(idx) {
     audio.src = `${currentReciter.server}${num}.mp3`;
     audio.play();
     
-    document.getElementById('persistent-player').style.display = 'flex';
-    document.getElementById('fabTasbih').style.bottom = '140px'; 
+    const p = document.getElementById('persistent-player');
+    p.style.display = 'flex';
+    p.classList.remove('minimized');
+    
+    document.getElementById('fabTasbih').classList.remove('docked');
+    document.getElementById('fabTasbih').style.bottom = '150px'; 
+    
     document.getElementById('p-title').innerText = s.name;
     document.getElementById('p-reciter').innerText = currentReciter.name;
     document.getElementById('playIcon').className = 'fas fa-pause';
@@ -486,11 +488,24 @@ function togglePlay() {
 function closePlayer() { 
     audio.pause(); 
     document.getElementById('persistent-player').style.display = 'none';
+    document.getElementById('fabTasbih').classList.remove('docked');
     document.getElementById('fabTasbih').style.bottom = '85px';
 }
-function minimizePlayer() {
+
+function togglePlayerSize() {
+    const p = document.getElementById('persistent-player');
+    const t = document.getElementById('fabTasbih');
+    
+    p.classList.toggle('minimized');
+    
+    if(p.classList.contains('minimized')) {
+        t.classList.add('docked');
+        t.style.bottom = 'unset';
+    } else {
+        t.classList.remove('docked');
+        t.style.bottom = '150px';
+    }
 }
-function maximizePlayer() { toggleSurahMenu(); }
 
 function toggleSurahMenu() {
     const m = document.getElementById('playlistModal');
