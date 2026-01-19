@@ -1,4 +1,4 @@
-const CACHE_NAME = 'taqwa-app-v1';
+const CACHE_NAME = 'islamic-x-v2';
 const urlsToCache = [
   './',
   './index.html',
