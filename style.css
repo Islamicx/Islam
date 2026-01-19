@@ -1,0 +1,296 @@
+:root {
+    --primary: #0f2e26;
+    --secondary: #1a4d40;
+    --gold: #C5A059;
+    --light: #f4f6f8;
+    --white: #ffffff;
+    --shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: var(--light);
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230f2e26' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    color: #333;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#splash {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--primary);
+    z-index: 10000;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.8s;
+}
+.splash-logo img { width: 140px; height: 140px; border-radius: 40px; border: 3px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.splash-text { margin-top: 20px; font-size: 2rem; color: white; font-weight: 900; }
+
+.app-container { display: flex; height: 100%; flex-direction: column; }
+
+.brand-header {
+    background: white; padding: 15px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); z-index: 10;
+}
+.brand-logo-container {
+    display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.1rem;
+}
+.en-brand { color: var(--primary); }
+.divider { color: #ddd; }
+.ar-brand { color: var(--gold); }
+.history-btn {
+    width: 35px; height: 35px; border-radius: 50%;
+    background: var(--light); color: var(--primary);
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+.content-area {
+    flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;
+}
+
+.sidebar {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    height: 65px; background: white;
+    display: flex; justify-content: space-around; align-items: center;
+    border-top: 1px solid #eee; z-index: 900;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #999; height: 100%; transition: 0.3s;
+}
+.nav-btn i { font-size: 1.2rem; margin-bottom: 3px; }
+.nav-btn span { font-size: 0.65rem; font-weight: bold; }
+.nav-btn.active { color: var(--primary); border-top: 3px solid var(--primary); background: linear-gradient(to bottom, #f9f9f9, white); }
+
+.fab-tasbih {
+    position: fixed; bottom: 85px; left: 20px;
+    width: 60px; height: 60px;
+    background: var(--gold); color: var(--primary);
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 1.8rem;
+    box-shadow: 0 5px 20px rgba(197, 160, 89, 0.5);
+    z-index: 850; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.fab-tasbih:active { transform: scale(0.9); }
+
+.section { display: none; animation: fadeUp 0.3s ease; }
+.section.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
+
+.search-container { position: relative; margin-bottom: 15px; }
+.search-bar {
+    width: 100%; padding: 12px 40px 12px 15px;
+    border: 1px solid #eee; border-radius: 12px;
+    background: white; font-family: 'Tajawal';
+}
+.search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+
+.reciters-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+.reciter-card {
+    background: white; border-radius: 15px; padding: 15px 10px;
+    text-align: center; box-shadow: var(--shadow); cursor: pointer; position: relative;
+    border: 1px solid transparent; transition: 0.2s;
+}
+.reciter-card:hover { border-color: var(--gold); }
+.avatar-unified {
+    width: 50px; height: 50px; background: var(--light); color: var(--primary);
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    margin: 0 auto 10px; font-size: 1.5rem;
+}
+.reciter-name { font-size: 0.85rem; font-weight: bold; color: #444; }
+
+.pin-icon { 
+    position: absolute; top: 0; left: 0; color: #ddd; 
+    font-size: 1.2rem; padding: 12px; z-index: 5;
+}
+.pin-icon.active { color: var(--gold); }
+.share-reciter {
+    position: absolute; top: 0; right: 0; color: #ddd;
+    font-size: 1.1rem; padding: 12px; z-index: 5;
+}
+.share-reciter:hover { color: var(--gold); }
+
+.quran-hero {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white; padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 20px;
+}
+.quran-hero i { font-size: 3rem; opacity: 0.8; margin-bottom: 10px; }
+.modern-select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; font-family: 'Tajawal'; }
+.modern-btn { width: 100%; padding: 12px; background: var(--gold); color: white; border: none; border-radius: 10px; font-weight: bold; }
+
+.azkar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.azkar-card {
+    background: white; padding: 20px; border-radius: 15px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    box-shadow: var(--shadow); cursor: pointer; border: 1px solid transparent; position: relative;
+}
+.azkar-card:active { border-color: var(--gold); }
+.azkar-card i { font-size: 1.8rem; }
+.azkar-card.morning i { color: #f39c12; }
+.azkar-card.evening i { color: #34495e; }
+.azkar-card.sleep i { color: #9b59b6; }
+.azkar-card.prayer i { color: #2ecc71; }
+.azkar-card.mosque i { color: #e67e22; }
+.azkar-card.wudu i { color: #3498db; }
+.share-cat-btn { position: absolute; top: 10px; right: 10px; color: #eee; font-size: 1rem; }
+
+.stories-list { display: flex; flex-direction: column; gap: 12px; }
+.story-item-card {
+    background: white; padding: 15px; border-radius: 15px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: var(--shadow); cursor: pointer; position: relative;
+    border-left: 5px solid var(--gold);
+}
+.story-title-row { display: flex; align-items: center; gap: 15px; }
+.story-avatar {
+    width: 45px; height: 45px; background: #fffcf5;
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    color: var(--primary); font-size: 1.4rem; border: 1px solid var(--gold);
+}
+.share-story-list { position: absolute; top: 10px; left: 10px; color: #ddd; font-size: 1rem; padding: 5px;}
+
+#fullStoryOverlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: white; z-index: 5000; display: none; flex-direction: column;
+}
+.story-navbar {
+    height: 60px; background: white; border-bottom: 1px solid #eee;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 15px;
+}
+.story-back-btn { background: none; border: none; font-size: 1rem; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: 'Tajawal'; font-weight: bold; }
+.story-nav-title { font-weight: bold; font-size: 1.1rem; color: var(--primary); }
+.story-action-btn { background: none; border: none; font-size: 1.2rem; color: var(--gold); cursor: pointer; padding: 5px; }
+.story-scroll-content { flex: 1; overflow-y: auto; padding: 25px; background: #fffdf5; }
+.story-body {
+    font-family: 'Amiri'; font-size: 1.3rem; line-height: 2.2;
+    text-align: justify; color: #222; margin-bottom: 30px;
+}
+.story-footer { padding-top: 20px; border-top: 1px solid #eee; text-align: center; }
+.footer-share-btn {
+    background: var(--primary); color: white; border: none;
+    padding: 12px 40px; border-radius: 25px; font-family: 'Tajawal'; font-weight: bold;
+    box-shadow: 0 5px 15px rgba(15, 46, 38, 0.3);
+}
+
+.prayer-dashboard { padding: 10px 0; }
+.prayer-main-card {
+    background: linear-gradient(135deg, #2b5876, #4e4376);
+    color: white; padding: 20px; border-radius: 20px; margin-bottom: 20px;
+    position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.prayer-main-card::before {
+    content: ''; position: absolute; top: -50px; right: -50px;
+    width: 150px; height: 150px; background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+.loc-info { display: flex; align-items: center; gap: 5px; font-size: 0.9rem; opacity: 0.9; margin-bottom: 15px; }
+.date-info h2 { font-size: 1.8rem; margin-bottom: 5px; }
+.next-prayer {
+    margin-top: 20px; background: rgba(0,0,0,0.25);
+    padding: 10px 20px; border-radius: 15px; display: inline-flex;
+    align-items: center; gap: 10px; backdrop-filter: blur(5px);
+}
+
+.prayer-times-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px; }
+.prayer-time-box {
+    background: white; padding: 15px; border-radius: 15px;
+    display: flex; flex-direction: column; align-items: center;
+    box-shadow: var(--shadow); position: relative; overflow: hidden;
+    border: 1px solid transparent; transition: 0.2s;
+}
+.prayer-time-box.active { border: 2px solid var(--gold); background: #fffcf0; transform: scale(1.02); }
+.pt-name { font-size: 1rem; color: #666; margin-bottom: 5px; font-weight: bold; }
+.pt-time { font-size: 1.3rem; font-weight: 800; color: var(--primary); font-family: 'Tajawal'; }
+.pt-icon { font-size: 2rem; color: #f0f0f0; position: absolute; bottom: -5px; right: -5px; transform: rotate(-15deg); }
+.active .pt-icon { color: var(--gold); opacity: 0.2; }
+
+.refresh-btn {
+    width: 100%; background: white; border: 1px solid var(--primary);
+    color: var(--primary); padding: 15px; border-radius: 15px; font-weight: bold;
+    display: flex; justify-content: center; align-items: center; gap: 10px;
+}
+
+#persistent-player {
+    position: fixed; bottom: 80px; left: 15px; right: 15px;
+    background: #1a1a1a; color: white; padding: 12px 20px;
+    border-radius: 50px; display: none; align-items: center; justify-content: space-between;
+    z-index: 800; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    border: 1px solid #333;
+}
+.player-left { display: flex; align-items: center; gap: 15px; flex: 1; overflow: hidden; }
+.close-btn { width: 25px; height: 25px; background: #333; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.8rem; cursor: pointer; color: #ff5555; }
+.mini-info { display: flex; flex-direction: column; cursor: pointer; }
+.mini-info span { font-size: 0.95rem; font-weight: bold; }
+.mini-info small { font-size: 0.75rem; color: var(--gold); }
+.player-controls { display: flex; align-items: center; gap: 15px; }
+.play-pause-btn {
+    width: 40px; height: 40px; background: var(--gold); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; color: black; cursor: pointer;
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
+}
+
+#playlistModal {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 75vh;
+    background: white; z-index: 2000; border-radius: 25px 25px 0 0;
+    transform: translateY(110%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column;
+    box-shadow: 0 -10px 50px rgba(0,0,0,0.3);
+}
+.modal-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; }
+#playlistContent { flex: 1; overflow-y: auto; padding: 10px; }
+.playlist-item { padding: 15px; border-bottom: 1px solid #f9f9f9; display: flex; justify-content: space-between; cursor: pointer; border-radius: 10px; }
+.playlist-item:hover { background: #f5f5f5; }
+.playlist-item.active { color: var(--primary); font-weight: bold; background: #e8f5e9; }
+
+#fullReader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fffbf0; z-index: 5000; display: none; overflow-y: auto; }
+.close-reader { position: fixed; top: 20px; left: 20px; width: 45px; height: 45px; background: var(--primary); color: white; border-radius: 50%; border: none; font-size: 1.2rem; cursor: pointer; z-index: 5001; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+#readerText { padding: 80px 20px; font-family: 'Amiri'; font-size: 26px; line-height: 2.6; text-align: justify; max-width: 800px; margin: 0 auto; }
+
+#azkarDetailView { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--light); z-index: 4000; display: none; flex-direction: column; }
+.azkar-view-header { background: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.azkar-view-header button { border: none; background: none; font-size: 1.2rem; color: var(--primary); }
+.azkar-view-content { flex: 1; overflow-y: auto; padding: 15px; }
+.detail-card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; border-right: 5px solid var(--gold); }
+.detail-text { font-family: 'Amiri'; font-size: 1.3rem; margin-bottom: 15px; line-height: 2; color: #222; }
+.detail-meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f5f5f5; padding-top: 10px; }
+.count-badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 15px; font-size: 0.9rem; }
+.detail-actions i { color: #999; margin-left: 20px; cursor: pointer; font-size: 1.2rem; }
+.detail-actions i:hover { color: var(--gold); }
+
+#tasbihModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 6000; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(2px); }
+.tasbih-content { background: white; width: 100%; height: 75vh; border-radius: 30px 30px 0 0; padding: 25px; display: flex; flex-direction: column; align-items: center; animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.tasbih-header { width: 100%; display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 1.2rem; font-weight: bold; }
+.tasbih-select-container { width: 100%; margin-bottom: 20px; }
+.dhikr-dropdown { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 15px; font-family: 'Tajawal'; font-size: 1rem; outline: none; }
+.tasbih-screen { width: 100%; background: #f4f6f8; border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 30px; border: 1px solid #e0e0e0; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); }
+#tasbihCounter { font-size: 4.5rem; font-weight: 800; color: var(--primary); display: block; line-height: 1; }
+#tasbihTargetName { color: var(--gold); font-size: 1rem; margin-top: 10px; display: block; }
+.tasbih-btn-area { width: 180px; height: 180px; background: linear-gradient(135deg, var(--primary), #1a4d40); border-radius: 50%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 15px 40px rgba(15, 46, 38, 0.4); border: 6px solid white; outline: 4px solid #eee; position: relative; overflow: hidden; transition: 0.1s; }
+.tasbih-btn-area:active { transform: scale(0.95); }
+.tasbih-options { display: flex; gap: 15px; width: 100%; justify-content: center; }
+.tasbih-options button { padding: 12px 25px; border-radius: 12px; border: none; background: #f0f0f0; color: #555; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+
+#historyModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 7000; display: none; justify-content: center; align-items: center; }
+.history-panel { background: white; width: 90%; max-height: 80%; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; }
+.h-header { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold; font-size: 1.2rem; }
+#historyList { flex: 1; overflow-y: auto; }
+.hist-item { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; display: flex; gap: 10px; color: #444; }
+.hist-time { color: #999; font-size: 0.8rem; min-width: 60px; }
+.clear-h-btn { margin-top: 10px; background: #ffebee; color: #d32f2f; border: none; padding: 15px; width: 100%; border-radius: 15px; font-weight: bold; }
+
+#sharePopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+.share-box { background: white; width: 85%; padding: 30px; border-radius: 25px; text-align: center; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+.share-img { width: 90px; height: 90px; background: #fff8e1; color: var(--gold); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; }
+.share-box h3 { color: var(--primary); margin-bottom: 10px; }
+.share-box p { color: #666; margin-bottom: 25px; line-height: 1.6; }
+.share-box button { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 15px; font-weight: bold; font-size: 1rem; box-shadow: 0 5px 15px rgba(15, 46, 38, 0.3); }
+.close-share { position: absolute; top: 15px; right: 15px; color: #aaa; font-size: 1.2rem; cursor: pointer; padding: 5px; }
+
+@keyframes slideUp { from{transform:translateY(100%)}to{transform:translateY(0)} }
